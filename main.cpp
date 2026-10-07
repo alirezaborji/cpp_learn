@@ -2,87 +2,111 @@
 #include <iostream>
 #include <string>
 
-/**
- * @brief Writes a text file, then reads and prints it using two stream types.
- * @details Creates or overwrites myFile.md in the current working directory.
- *          Prints its contents once with ifstream and once with fstream.
- * @return 0 on success, or 1 if opening, writing, or reading the file fails.
- */
 int main()
 {
-    const std::string filePath = "myFile.md";
+    std::string filename = "myFile.txt";
 
-    /**
-     * @brief Open the file for writing.
-     * @details fstream supports both input and output. Here, ios::out selects
-     *          output only, and ios::trunc explicitly discards existing contents.
-     */
-    std::fstream outputFile(filePath, std::ios::out | std::ios::trunc);
-    if (!outputFile.is_open())
-    {
-        std::cerr << "Could not open " << filePath << " for writing.\n";
-        return 1;
-    }
+    std::cout << "1. Add note\n"
+              << "2. Show all notes\n"
+              << "3. Search notes\n"
+              << "4. Clear notes\n"
+              << "5. Exit" << std::endl;
 
-    // Each '\n' ends a line without forcing an immediate flush.
-    outputFile << "1. Hiiiiiiiiiiiiiiiiiiiii\n"
-               << "2. Hiiiiiiiiiiiiiii\n"
-               << "3. Hiiiiiiiiiiiiiii\n"
-               << "4. Hiiiiiiiiiiiiiii\n"
-               << "5. Hiiiiiiiiiiiiiii\n";
+    std::string content;
+    getline(std::cin, content);
+    // cin >> content;
 
-    // Close flushes buffered output before the file is opened for reading.
-    outputFile.close();
-    if (!outputFile)
+    if (content == "1")
     {
-        std::cerr << "Could not finish writing " << filePath << ".\n";
-        return 1;
-    }
+        std::cout << "chosed: " << content << std::endl;
 
-    /** @brief Read the file with ifstream, which defaults to input-only mode. */
-    std::ifstream inputFile(filePath);
-    if (!inputFile.is_open())
-    {
-        std::cerr << "Could not open " << filePath << " for reading.\n";
-        return 1;
-    }
+        std::fstream meStream(filename, std::ios::app);
 
-    std::string line;
-    // getline preserves spaces and removes the newline. Test the read itself
-    // so a failed read does not print an extra line.
-    while (std::getline(inputFile, line))
-    {
-        std::cout << line << '\n';
-    }
-    if (!inputFile.eof())
-    {
-        std::cerr << "Could not finish reading " << filePath << ".\n";
-        return 1;
-    }
-    inputFile.close();
+        if (!meStream.is_open())
+        {
+            meStream.close();
+            return 0;
+        }
 
-    /**
-     * @brief Read the same file again with fstream.
-     * @details Its default mode is ios::in | ios::out, requesting both read
-     *          and write access. This example uses only its reading capability.
-     */
-    std::fstream readWriteFile(filePath);
-    if (!readWriteFile.is_open())
-    {
-        std::cerr << "Could not open " << filePath << " for reading and writing.\n";
-        return 1;
-    }
+        getline(std::cin, content);
 
-    while (std::getline(readWriteFile, line))
-    {
-        std::cout << line << '\n';
-    }
-    if (!readWriteFile.eof())
-    {
-        std::cerr << "Could not finish reading " << filePath << ".\n";
-        return 1;
-    }
+        meStream << content << std::endl;
 
-    // The remaining open stream closes automatically when it leaves scope.
+        getline(meStream, content);
+
+        std::cout << content << std::endl;
+
+        meStream.close();
+    }else if(content == "2")
+    {
+        std::cout << "chosed: " << content << std::endl;
+
+        std::fstream meStream(filename, std::ios::in);
+
+        if (!meStream.is_open())
+        {
+            meStream.close();
+            return 0;
+        }
+
+        while (getline(meStream, content))
+        {
+            std::cout << content << std::endl;
+        }
+
+        meStream.close();
+    }else if(content == "3")
+    {
+        std::cout << "chosed: " << content << std::endl;
+
+        std::fstream meStream(filename, std::ios::in);
+
+        if (!meStream.is_open())
+        {
+            meStream.close();
+            return 0;
+        }
+
+        std::cout << "Enter what to find:" << std::endl;
+        std::string findContent;
+        getline(std::cin, findContent);
+
+        while (getline(meStream, content))
+        {
+            int found = content.find(findContent);
+
+            if (!found)
+            {
+                std::cout << "found" << std::endl;
+                break;
+            }
+        }
+
+    }else if(content == "4")
+    {
+        std::cout << "chosed: " << content << std::endl;
+
+        std::fstream meStream(filename, std::ios::out);
+
+        if (!meStream.is_open())
+        {
+            meStream.close();
+            return 0;
+        }
+
+        meStream << "" << std::endl;
+
+        meStream.close();
+    }else if(content == "5"){}
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
