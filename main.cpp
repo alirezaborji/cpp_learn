@@ -1,45 +1,47 @@
 #include <algorithm>
-#include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
-#pragma pack(push, 1)
-struct School
-{
-    int amountOfChildrens;
-    int amountOfClasses;
-    int amountOfTeachers;
-    char headQuarterName[50];
-};
-#pragma pack(pop)
+using namespace std;
 
 int main()
 {
-    const std::string filename = "meFile.bin";
+    vector<string> meVector;
 
-    std::fstream outStream(filename, std::ios::binary|std::ios::out); // this
+    meVector.push_back("Hi");
+    meVector.push_back("Hi again");
+    meVector.push_back("baby");
+    cout << meVector[1] << endl;
 
-    School school = {.amountOfChildrens = 10, .amountOfClasses = 3, .amountOfTeachers = 5, .headQuarterName = "Khanoom Vaziri"};
+    vector<int> it = {1, 2, 3};
 
-    outStream.write(reinterpret_cast<char *>(&school), sizeof(school));
+    auto i = it.begin();
 
-    outStream.close();
+    cout << *i++ << endl;
+    cout << *i++ << endl;
+    cout << *i++ << endl;
 
+    //###################
+    //###################
+    //###################
 
+    std::vector<int> numbers;
 
-    school = {.amountOfChildrens = 0,.amountOfClasses = 0,.amountOfTeachers = 0,.headQuarterName = "NONE"};
+    numbers.reserve(5);
+    std::cout << numbers.size() << '\n';
+    std::cout << numbers.capacity() << '\n';
 
+    numbers.push_back(10);
+    numbers.push_back(20);
 
+    std::cout << numbers.size() << '\n';
+    std::cout << numbers.capacity() << '\n';
 
-    std::fstream inStream(filename, std::ios::binary|std::ios::in); // this
+    numbers.clear();
 
-    inStream.read(reinterpret_cast<char *>(&school), sizeof(school));
-
-    std::cout << school.amountOfChildrens << " :: " <<
-                 school.amountOfClasses << " :: " <<
-                 school.amountOfTeachers << " :: " <<
-                 school.headQuarterName <<
-                 std::endl;
+    std::cout << numbers.size() << '\n';
+    std::cout << numbers.capacity() << '\n';
 
     return 0;
 }
