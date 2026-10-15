@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 4.3)
-project(cpp_learn)
+cmake_minimum_required(VERSION 3.20)
+project(cpp_learn LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
-
-add_executable(cpp_learn main.cpp)
+add_subdirectory(projects/cpp-1-exceptions)
+add_subdirectory(projects/cpp-2-files)
+add_subdirectory(projects/cpp-012-vectors)
